@@ -8,7 +8,6 @@ statistics.  All text is lowercased so searches are case-insensitive.
 
 import re
 
-
 def tokenize_text(text):
     """Split text into a list of lowercase word tokens.
 
