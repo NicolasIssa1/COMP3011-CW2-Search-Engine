@@ -9,8 +9,6 @@ Commands:
     quit            Exit the program.
 """
 
-import json
-
 from src.crawler import crawl
 from src.indexer import build_inverted_index
 from src.storage import save_index, load_index
@@ -51,10 +49,12 @@ def handle_print(index, word):
     """Display the index entry for a single word."""
     entry = get_word_entry(index, word)
     if not entry:
-        print(f"Word '{word}' not found in the index.")
+        print(f"Word '{word.strip()}' not found in the index.")
         return
 
-    print(f"Entry for '{word.strip().lower()}':")
+    # Use the normalised (lowercase, stripped) form for display
+    normalised = word.strip().lower()
+    print(f"Entry for '{normalised}':")
     for url, data in entry.items():
         print(f"  {url}")
         print(f"    Frequency : {data['frequency']}")

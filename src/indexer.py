@@ -8,6 +8,7 @@ statistics.  All text is lowercased so searches are case-insensitive.
 
 import re
 
+
 def tokenize_text(text):
     """Split text into a list of lowercase word tokens.
 
@@ -16,10 +17,10 @@ def tokenize_text(text):
     Punctuation, symbols, and whitespace are discarded.
 
     Args:
-        text: A string of raw page text.
+        text (str): A string of raw page text.
 
     Returns:
-        A list of lowercase token strings, preserving their order.
+        list[str]: A list of lowercase token strings, preserving their order.
     """
     # Match word characters and internal apostrophes (e.g. "it's", "don't")
     tokens = re.findall(r"[a-zA-Z0-9]+(?:'[a-zA-Z]+)?", text)
@@ -34,19 +35,19 @@ def build_inverted_index(pages):
     at which token positions it occurs.
 
     Args:
-        pages: A list of dicts, each with keys 'url', 'title', and 'text',
-               as returned by crawler.crawl().
+        pages (list[dict]): A list of dicts, each with keys 'url', 'title',
+            and 'text', as returned by crawler.crawl().
 
     Returns:
-        A dict structured as:
-        {
-            "word": {
-                "page_url": {
-                    "frequency": int,
-                    "positions": [int, ...]
+        dict: The inverted index, structured as:
+            {
+                "word": {
+                    "page_url": {
+                        "frequency": int,
+                        "positions": [int, ...]
+                    }
                 }
             }
-        }
     """
     index = {}
 

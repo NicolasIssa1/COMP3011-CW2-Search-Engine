@@ -18,10 +18,10 @@ def fetch_page(url):
     """Send a GET request to the given URL and return the Response object.
 
     Args:
-        url: The full URL to fetch.
+        url (str): The full URL to fetch.
 
     Returns:
-        A requests.Response object if successful, None otherwise.
+        requests.Response or None: The response if successful, None otherwise.
     """
     try:
         response = requests.get(url, timeout=10)
@@ -36,11 +36,11 @@ def parse_page(url, html):
     """Parse a page's HTML and extract its URL, title, and visible text.
 
     Args:
-        url: The URL of the page (stored as-is in the result).
-        html: The raw HTML string of the page.
+        url (str): The URL of the page (stored as-is in the result).
+        html (str): The raw HTML string of the page.
 
     Returns:
-        A dictionary with keys 'url', 'title', and 'text'.
+        dict: A dictionary with keys 'url', 'title', and 'text'.
     """
     soup = BeautifulSoup(html, "lxml")
 
@@ -64,10 +64,10 @@ def get_next_page_url(html):
     """Find the 'next' pagination link in the page HTML.
 
     Args:
-        html: The raw HTML string of the page.
+        html (str): The raw HTML string of the page.
 
     Returns:
-        The full URL of the next page, or None if there is no next page.
+        str or None: The full URL of the next page, or None if there is no next page.
     """
     soup = BeautifulSoup(html, "lxml")
     next_li = soup.find("li", class_="next")
@@ -84,10 +84,11 @@ def crawl(start_url=None):
     Respects the politeness window between successive requests.
 
     Args:
-        start_url: The URL to begin crawling from. Defaults to BASE_URL + "/".
+        start_url (str or None): The URL to begin crawling from.
+            Defaults to BASE_URL + "/".
 
     Returns:
-        A list of dictionaries, each with 'url', 'title', and 'text' keys.
+        list[dict]: A list of dicts, each with 'url', 'title', and 'text' keys.
     """
     if start_url is None:
         start_url = BASE_URL + "/"

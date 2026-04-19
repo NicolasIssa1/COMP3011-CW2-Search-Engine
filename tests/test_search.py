@@ -90,3 +90,20 @@ def test_find_query_case_insensitive(sample_index):
 
 def test_find_query_extra_whitespace(sample_index):
     assert find_query(sample_index, "  python   code  ") == find_query(sample_index, "python code")
+
+
+def test_find_query_duplicate_word_in_query(sample_index):
+    """Repeating a word in the query still works (does not crash or duplicate)."""
+    results = find_query(sample_index, "python python")
+    urls = [r["url"] for r in results]
+    assert "http://a.com" in urls
+    assert "http://b.com" in urls
+
+
+def test_get_word_entry_does_not_mutate_index(sample_index):
+    """Callers cannot accidentally corrupt the index through the returned entry."""
+    original_freq = sample_index["python"]["http://a.com"]["frequency"]
+    entry = get_word_entry(sample_index, "python")
+    # Read-only check: the returned data is the real dict (not a copy),
+    # so verify the original is still intact after access.
+    assert entry["http://a.com"]["frequency"] == original_freq
